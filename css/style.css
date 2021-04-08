@@ -1,0 +1,84 @@
+body {
+    width: 100%;
+    background: rgb(214, 214, 214);
+    background: linear-gradient(90deg, rgba(214, 214, 214, 1) 0%, rgba(255, 255, 255, 1) 50%, rgba(214, 214, 214, 1) 100%);
+}
+
+header {
+    width: 100%;
+    position: fixed;
+}
+
+#logo {
+    position: relative;
+    width: 200px;
+    height: auto;
+    left: 75px;
+    top: 10px;
+}
+
+#container1 {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    border: 2px red solid;
+    width: 100%;
+    height: 450px;
+    top: 110px;
+    display: flex;
+    justify-content: center;
+}
+
+#container2 {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    border: 2px blue solid;
+    width: 100%;
+    height: 100px;
+    top: 580px;
+}
+
+#hangmanWord {
+    display: flex;
+    justify-content: center;
+    border: 2px purple solid;
+    width: 30%;
+}
+
+#container3 {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    border: 2px green solid;
+    width: 100%;
+    height: 200px;
+    top: 700px;
+}
+
+#functions {
+    position: relative;
+    width: 30%;
+    height: auto;
+    border: 2px red solid;
+}
+
+#help {
+    position: relative;
+    display: block;
+    width: 100px;
+    top: 40px;
+    height: auto;
+}
+
+#letterBtn {
+    position: relative;
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    top: 20px;
+    font-size: 3em;
+    margin: 5px;
+    width: 50px;
+    height: 50px;
+}
