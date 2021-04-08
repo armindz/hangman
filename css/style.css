@@ -56,8 +56,17 @@ header {
     top: 700px;
 }
 
+#keyboard {
+    position: relative;
+    width: 30%;
+    height: auto;
+    border: 2px red solid;
+}
+
 #functions {
     position: relative;
+    display: flex;
+    justify-content: center;
     width: 30%;
     height: auto;
     border: 2px red solid;
@@ -66,8 +75,7 @@ header {
 #help {
     position: relative;
     display: block;
-    width: 100px;
-    top: 40px;
+    width: 50px;
     height: auto;
 }
 
@@ -81,4 +89,24 @@ header {
     margin: 5px;
     width: 50px;
     height: 50px;
+}
+
+#container4 {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    border: 2px solid yellow;
+    width: 100%;
+    height: 50px;
+    top: 950px;
+}
+
+#keyboardKey {
+    position: relative;
+    background-color: rgb(162, 196, 240);
+    width: 50px;
+    border-radius: 7px;
+    height: 45px;
+    margin: 3px;
+    font-size: 1.5em;
 }
