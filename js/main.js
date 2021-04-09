@@ -45,62 +45,37 @@ function doEverything() {
 
 }
 
-
-
-
 function createHangmanWord(word) {
 
     let hangman = new Hangman(word, false, generateHangmanId());
     words.push(hangman);
 };
 
-
-
-
-function handleUserInputData(letterNumber, hangmanId) {
-
-    let inputLetter = document.getElementById("letterInput").value;
-    console.log("number " + letterNumber + " id " + hangmanId + " inputLetter " + inputLetter);
-    if (isLetterCorrect(getHangmanByHangmanId(hangmanId), letterNumber, inputLetter)) {
-        //   document.getElementById("letterInput").innerHTML += inputLetter;
-        console.log("ITS CORRECT");
-    } else {
-        console.log("ITS NOT CORRECT");
-        // change photo of hangman
-    }
-
-    document.forms["inputForm"].reset();
-}
-
-
-
-
-
-function isLetterCorrect(hangman, letterNumber, letter) {
-
-
-    if (hangman.word.charAt(letterNumber) == letter) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-
-
-
-
 function guessLetter(hangmanId, letter) {
 
-    let char = String.fromCharCode(letter);
+
     let hangman = getHangmanByHangmanId(hangmanId);
     for (let i = 0; i < hangman.word.length; i++) {
-        console.log(hangmanId + char);
-        if (hangman.word.charAt(i) == char) {
-            document.querySelector('[property="' + hangmanId + '"][name="' + char + '"]').style.backgroundColor = "red";
+
+        console.log(hangman.word.charAt(i));
+        if (hangman.word.charAt(i) == letter) {
+            // change color of key
+            document.querySelector('[property="' + hangmanId + '"][name="' + letter + '"]').style.background = "green";
+
+            // try to implement querySelectorAll
+            //    document.querySelector('button[property="' + hangmanId + '"][name="' + i + '"]').reset;
+
+            // show hidden letter
+            document.querySelector('button[property="' + hangmanId + '"][name="' + i + '"]').innerText = letter;
+
+        } else if (!hangman.word.includes(letter)) {
+            document.querySelector('[property="' + hangmanId + '"][name="' + letter + '"]').style.background = "red";
+
+
         }
 
     }
+
 
 }
 
@@ -149,7 +124,7 @@ function generateKeyboard(hangman) {
     for (let i = 65; i <= 90; i++) {
 
         let char = String.fromCharCode(i);
-        document.getElementById("keyboard").innerHTML += '<button id="keyboardKey" type="submit" property="' + hangman.id + ' "name="' + char + '" onclick="guessLetter(2,"A");">' + char + '</button>';
+        document.getElementById("keyboard").innerHTML += '<button id="keyboardKey" type="submit" property="' + hangman.id + '" name="' + char + '" onclick="guessLetter(' + hangman.id + ',\'' + char + '\');">' + char + '</button>';
 
 
     }
@@ -173,8 +148,6 @@ function getHangmanByHangmanId(hangmanId) {
 
 
 }
-
-
 
 
 function generateHangmanId() {
@@ -210,4 +183,9 @@ function getListOfUniqueRandomNumbers(hangman, numberOfMissingLeters) {
     missingLetters.splice(0, hangman.word.length - numberOfMissingLeters);
 
     return missingLetters;
+}
+
+
+function isLetterCorrect(hangman, letterNumber, letter) {
+
 }
