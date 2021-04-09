@@ -103,7 +103,7 @@ function win(hangman) {
 }
 
 function lost(hangman) {
-    hangmanIcon.src = "img/icon/hangmangameover.png";
+    document.getElementById("hangmanMain").src = "img/icon/hangmangameover.png";
     numberOfLostGames++;
     removeHangmanFromList(hangman);
     hideKeyboard();
