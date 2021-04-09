@@ -10,7 +10,7 @@ let Hangman = function(word, isGuessed, id) {
     this.word = word;
     this.isGuessed = isGuessed;
     this.id = id;
-
+    this.missingLetters = [];
 
 
     this.guessed = function() {
@@ -22,8 +22,8 @@ let Hangman = function(word, isGuessed, id) {
 }
 
 // arrays 
-let words = [];
-let missingLetters = [];
+let hangmenList = [];
+let numberOfMissingLetters = 3;
 
 
 // on create
@@ -41,52 +41,60 @@ createHangmanWord("FLYWHEEL");
 
 function doEverything() {
 
-    displayHangmanWord(getRandomHangmanWordFromList(words));
+    displayHangmanWord(getRandomHangmanWordFromList(hangmenList));
 
 }
 
 function createHangmanWord(word) {
 
-    let hangman = new Hangman(word, false, generateHangmanId());
-    words.push(hangman);
+    let hangman = new Hangman(word.toUpperCase(), false, generateHangmanId());
+    hangman.missingLetters = getListOfUniqueRandomNumbers(hangman, numberOfMissingLetters);
+    hangmenList.push(hangman);
 };
+
 
 function guessLetter(hangmanId, letter) {
 
+    // change button color if user tried to guess
+    document.querySelector('[property="' + hangmanId + '"][name="' + letter + '"]').style.background = "red";
 
+    let isLetterGuessed = false;
     let hangman = getHangmanByHangmanId(hangmanId);
-    for (let i = 0; i < hangman.word.length; i++) {
+    let missingLettersList = hangman.missingLetters;
 
-        console.log(hangman.word.charAt(i));
-        if (hangman.word.charAt(i) == letter) {
-            // change color of key
+    for (let i = 0; i < missingLettersList.length; i++) {
+
+        let char = hangman.word.charAt(missingLettersList[i]);
+        let charNumber = missingLettersList[i];
+        let charArgument = letter.charAt(0);
+
+
+
+        if (char == charArgument) {
+            console.log(true);
+            // change button color when user used right letter
             document.querySelector('[property="' + hangmanId + '"][name="' + letter + '"]').style.background = "green";
-
             // try to implement querySelectorAll
-            //    document.querySelector('button[property="' + hangmanId + '"][name="' + i + '"]').reset;
+            document.querySelector('button[property="' + hangmanId + '"][name="' + charNumber + '"]').reset;
 
             // show hidden letter
-            document.querySelector('button[property="' + hangmanId + '"][name="' + i + '"]').innerText = letter;
-
-        } else if (!hangman.word.includes(letter)) {
-            document.querySelector('[property="' + hangmanId + '"][name="' + letter + '"]').style.background = "red";
-
-
+            document.querySelector('button[property="' + hangmanId + '"][name="' + charNumber + '"]').innerText = char;
+            isLetterGuessed = true;
         }
 
     }
 
+    return isLetterGuessed;
 
 }
-
 
 
 
 
 function displayHangmanWord(hangman) {
     generateKeyboard(hangman);
-    let numberOfMissingLetters = 3;
-    let listOfRandomLetters = getListOfUniqueRandomNumbers(hangman, numberOfMissingLetters);
+
+    let listOfRandomLetters = hangman.missingLetters;
 
     while (document.querySelector('[id="letterBtn"]') != null) {
 
@@ -139,10 +147,10 @@ function getRandomHangmanWordFromList(list) {
 
 function getHangmanByHangmanId(hangmanId) {
 
-    for (let i = 0; i < words.length; i++) {
+    for (let i = 0; i < hangmenList.length; i++) {
 
-        if (words[i].id == hangmanId) {
-            return words[i];
+        if (hangmenList[i].id == hangmanId) {
+            return hangmenList[i];
         }
     }
 
@@ -153,10 +161,10 @@ function getHangmanByHangmanId(hangmanId) {
 function generateHangmanId() {
 
     let id = 0;
-    for (let i = 0; i < words.length; i++) {
+    for (let i = 0; i < hangmenList.length; i++) {
 
-        if (words[i].id == words[words.length - 1].id) {
-            id = words[i].id;
+        if (hangmenList[i].id == hangmenList[hangmenList.length - 1].id) {
+            id = hangmenList[i].id;
             id++;
             return id;
         }
@@ -174,15 +182,15 @@ function clearArray(array) {
 
 function getListOfUniqueRandomNumbers(hangman, numberOfMissingLeters) {
 
-    clearArray(missingLetters);
+    clearArray(hangman.missingLetters);
     for (let x = 0; x < hangman.word.length; x++) {
-        missingLetters.push(x);
+        hangman.missingLetters.push(x);
 
     }
-    missingLetters.sort(() => Math.random() - 0.5);
-    missingLetters.splice(0, hangman.word.length - numberOfMissingLeters);
+    hangman.missingLetters.sort(() => Math.random() - 0.5);
+    hangman.missingLetters.splice(0, hangman.word.length - numberOfMissingLeters);
 
-    return missingLetters;
+    return hangman.missingLetters;
 }
 
 
