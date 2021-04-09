@@ -23,7 +23,7 @@ let Hangman = function(word, isGuessed, id) {
 
 // arrays 
 let hangmenList = [];
-let numberOfMissingLetters = 3;
+let numberOfMissingLetters = 4;
 let maxNumberOfGuesses = 6;
 let numberOfGuesses = 0;
 let numberOfWrongLetters = 0;
@@ -39,6 +39,42 @@ createHangmanWord("BEDROOM");
 createHangmanWord("JOYSTICK");
 createHangmanWord("DESKTOP");
 createHangmanWord("FLYWHEEL");
+createHangmanWord("LAPTOP");
+createHangmanWord("STADIUM");
+createHangmanWord("MONTH");
+createHangmanWord("CHURCH");
+createHangmanWord("REASON");
+createHangmanWord("BUTTON");
+createHangmanWord("GOVERNMENT");
+createHangmanWord("PICTURE");
+createHangmanWord("PLASTIC");
+createHangmanWord("CEMETERY");
+createHangmanWord("APPROVAL");
+createHangmanWord("STOMACH");
+createHangmanWord("INSURANCE");
+createHangmanWord("SQUIRREL");
+createHangmanWord("GROUP");
+createHangmanWord("SMOKE");
+createHangmanWord("REACTION");
+createHangmanWord("APPLIANCE");
+createHangmanWord("FIREMAN");
+createHangmanWord("BRAKE");
+createHangmanWord("TERRITORY");
+createHangmanWord("HARMONY");
+createHangmanWord("NUMBER");
+createHangmanWord("UMBRELLA");
+createHangmanWord("CALCULATOR");
+createHangmanWord("CURTAIN");
+createHangmanWord("TEXTURE");
+createHangmanWord("MUSCLE");
+createHangmanWord("STREET");
+createHangmanWord("INDUSTRY");
+createHangmanWord("RAINSTORM");
+createHangmanWord("SECRETARY");
+createHangmanWord("WHISTLE");
+createHangmanWord("SHIRT");
+createHangmanWord("WOUND");
+createHangmanWord("BASEBALL");
 
 
 
@@ -58,21 +94,54 @@ function createHangmanWord(word) {
     hangmenList.push(hangman);
 };
 
-function manageUsersGuesses(isLetterGuessed) {
+function win(hangman) {
+
+    document.getElementById("hangmanMain").src = "img/icon/hangmanwin.png";
+    removeHangmanFromList(hangman);
+    hangman.guessed();
+
+}
+
+function lost(hangman) {
+    hangmanIcon.src = "img/icon/hangmangameover.png";
+    numberOfLostGames++;
+    removeHangmanFromList(hangman);
+    hideKeyboard();
+
+}
+
+function manageUsersGuesses(hangman, letter, isLetterGuessed) {
     numberOfGuesses++;
 
     if (isLetterGuessed) {
+        numberOfRightLetters++;
+        removeLetterFromMissingLetters(letter, hangman);
+        if (hangman.missingLetters.length == 0) {
+            win(hangman);
+        }
+
 
     } else if (!isLetterGuessed) {
 
-
         numberOfWrongLetters++;
-        hangMe(numberOfWrongLetters);
+        hangMe(hangman, numberOfWrongLetters);
     }
 
 }
 
+function removeLetterFromMissingLetters(letter, hangman) {
 
+
+
+    for (let i = 0; i < hangman.missingLetters.length; i++) {
+        let char = hangman.word.charAt(hangman.missingLetters[i]);
+
+        if (char == letter) {
+            console.log(char + " " + letter);
+            hangman.missingLetters.splice(i, 1);
+        }
+    }
+}
 
 function guessLetter(hangmanId, letter) {
 
@@ -84,6 +153,10 @@ function guessLetter(hangmanId, letter) {
     let missingLettersList = hangman.missingLetters;
     console.log("Number of guesses " + numberOfGuesses);
     console.log("Number of wrong guesses: " + numberOfWrongLetters)
+    for (let x = 0; x < hangman.missingLetters.length; x++) {
+        console.log("Duzina missing letters " + hangman.missingLetters[x]);
+    }
+
     for (let i = 0; i < missingLettersList.length; i++) {
 
         let char = hangman.word.charAt(missingLettersList[i]);
@@ -105,13 +178,22 @@ function guessLetter(hangmanId, letter) {
         }
 
     }
-    manageUsersGuesses(isLetterGuessed);
+    manageUsersGuesses(hangman, letter, isLetterGuessed);
     return isLetterGuessed;
 
 }
 
 
+function removeHangmanFromList(hangman) {
 
+
+    for (let i = 0; i < hangmenList.length; i++) {
+
+        if (hangmenList[i].id == hangman.id) {
+            hangmenList.splice(i, 1);
+        }
+    }
+}
 
 function displayHangmanWord(hangman) {
 
@@ -145,7 +227,7 @@ function displayHangmanWord(hangman) {
 
 
 
-function hangMe(numberOfGuesses) {
+function hangMe(hangman, numberOfGuesses) {
 
     let hangmanIcon = document.getElementById("hangmanMain");
     switch (numberOfGuesses) {
@@ -166,9 +248,7 @@ function hangMe(numberOfGuesses) {
             hangmanIcon.src = "img/icon/hangman5.png";
             break;
         case 6:
-            hangmanIcon.src = "img/icon/hangmangameover.png";
-            numberOfLostGames++;
-            hideKeyboard();
+            lost(hangman);
             break;
     }
 }
@@ -184,14 +264,19 @@ function generateKeyboard(hangman) {
         let char = String.fromCharCode(i);
         document.getElementById("keyboard").innerHTML += '<button id="keyboardKey" type="submit" property="' + hangman.id + '" name="' + char + '" onclick="guessLetter(' + hangman.id + ',\'' + char + '\');">' + char + '</button>';
 
-
     }
+
 
 };
 
 function getRandomHangmanWordFromList(list) {
 
+
     let hangman = list[Math.floor(Math.random() * list.length)];
+    while (hangman.isGuessed) {
+        hangman = list[Math.floor(Math.random() * list.length)];
+    }
+
     return hangman
 }
 
