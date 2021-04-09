@@ -1,19 +1,23 @@
+html,
 body {
     width: 100%;
+    height: 100%;
+    padding: 0px;
     background: rgb(214, 214, 214);
     background: linear-gradient(90deg, rgba(214, 214, 214, 1) 0%, rgba(255, 255, 255, 1) 50%, rgba(214, 214, 214, 1) 100%);
 }
 
 header {
     width: 100%;
-    position: fixed;
+    position: absolute;
+    height: 50px;
 }
 
 #logo {
     position: relative;
-    width: 200px;
+    max-width: 200px;
     height: auto;
-    left: 75px;
+    left: 6%;
     top: 10px;
 }
 
@@ -21,10 +25,9 @@ header {
     position: absolute;
     display: flex;
     justify-content: center;
-    border: 2px red solid;
     width: 100%;
-    height: 450px;
-    top: 110px;
+    height: 250px;
+    top: 75px;
     display: flex;
     justify-content: center;
 }
@@ -33,50 +36,53 @@ header {
     position: absolute;
     display: flex;
     justify-content: center;
-    border: 2px blue solid;
     width: 100%;
-    height: 100px;
-    top: 580px;
+    height: 90px;
+    top: 325px;
 }
 
 #hangmanWord {
     display: flex;
     justify-content: center;
-    border: 2px purple solid;
-    width: 30%;
+    max-width: 900px;
+    height: 90px;
+}
+
+#hangmanMain {
+    max-width: 500px;
+    max-height: 100%;
 }
 
 #container3 {
     position: absolute;
     display: flex;
     justify-content: center;
-    border: 2px green solid;
     width: 100%;
     height: 200px;
-    top: 700px;
+    top: 420px;
 }
 
 #keyboard {
     position: relative;
-    width: 30%;
+    max-width: 508px;
     height: auto;
-    border: 2px red solid;
 }
 
 #functions {
     position: relative;
     display: flex;
     justify-content: center;
-    width: 30%;
+    max-width: 900px;
     height: auto;
-    border: 2px red solid;
 }
 
 #help {
     position: relative;
     display: block;
-    width: 50px;
+    max-width: 50px;
     height: auto;
+    outline: none;
+    cursor: pointer;
 }
 
 #letterBtn {
@@ -85,28 +91,39 @@ header {
     background-color: transparent;
     border: none;
     top: 20px;
-    font-size: 3em;
+    font-size: 2em;
     margin: 5px;
-    width: 50px;
+    -ms-text-kashida-space: 50px;
     height: 50px;
+    outline: none;
 }
 
 #container4 {
     position: absolute;
     display: flex;
     justify-content: center;
-    border: 2px solid yellow;
     width: 100%;
     height: 50px;
-    top: 950px;
+    top: 625px;
 }
 
 #keyboardKey {
     position: relative;
-    background-color: rgb(162, 196, 240);
+    background-color: rgb(112, 155, 212);
     width: 50px;
+    color: rgb(66, 66, 66);
+    font-family: Arial;
     border-radius: 7px;
-    height: 45px;
+    max-height: 45px;
     margin: 3px;
     font-size: 1.5em;
+    box-shadow: 7px 7px 20px #888;
+    outline: none;
+    cursor: pointer;
+}
+
+#keyboardKey :hover {
+    transition: ease-in 300ms;
+    cursor: pointer;
+    background-color: rgba(96, 105, 116, 0.1);
 }
