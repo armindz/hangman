@@ -29,6 +29,7 @@ let numberOfGuesses = 0;
 let numberOfWrongLetters = 0;
 let numberOfRightLetters = 0;
 let numberOfLostGames = 0;
+let numberOfWonGames = 0;
 
 // on create
 createHangmanWord("MONITOR");
@@ -78,6 +79,12 @@ createHangmanWord("BASEBALL");
 
 
 
+function changeMissingLettersNumber() {
+
+    numberOfMissingLetters = document.getElementById("missingLettersNum").value;
+    console.log(numberOfMissingLetters);
+}
+
 function doEverything() {
     resetToDefaultValues();
 
@@ -97,7 +104,10 @@ function createHangmanWord(word) {
 function win(hangman) {
 
     document.getElementById("hangmanMain").src = "img/icon/hangmanwin.png";
+    numberOfWonGames++;
+    document.getElementById("winsButton").innerText = numberOfWonGames;
     removeHangmanFromList(hangman);
+    hideKeyboard();
     hangman.guessed();
 
 }
@@ -105,6 +115,7 @@ function win(hangman) {
 function lost(hangman) {
     document.getElementById("hangmanMain").src = "img/icon/hangmangameover.png";
     numberOfLostGames++;
+    let buttonValue = document.getElementById("lossesButton").innerText = numberOfLostGames;
     removeHangmanFromList(hangman);
     hideKeyboard();
 
@@ -116,6 +127,7 @@ function manageUsersGuesses(hangman, letter, isLetterGuessed) {
     if (isLetterGuessed) {
         numberOfRightLetters++;
         removeLetterFromMissingLetters(letter, hangman);
+        console.log(hangman.missingLetters.length);
         if (hangman.missingLetters.length == 0) {
             win(hangman);
         }
@@ -137,7 +149,6 @@ function removeLetterFromMissingLetters(letter, hangman) {
         let char = hangman.word.charAt(hangman.missingLetters[i]);
 
         if (char == letter) {
-            console.log(char + " " + letter);
             hangman.missingLetters.splice(i, 1);
         }
     }
@@ -153,9 +164,6 @@ function guessLetter(hangmanId, letter) {
     let missingLettersList = hangman.missingLetters;
     console.log("Number of guesses " + numberOfGuesses);
     console.log("Number of wrong guesses: " + numberOfWrongLetters)
-    for (let x = 0; x < hangman.missingLetters.length; x++) {
-        console.log("Duzina missing letters " + hangman.missingLetters[x]);
-    }
 
     for (let i = 0; i < missingLettersList.length; i++) {
 
@@ -343,7 +351,7 @@ function isLetterCorrect(hangman, letterNumber, letter) {
 }
 
 function resetToDefaultValues() {
-    numberOfMissingLetters = 3;
+
     maxNumberOfGuesses = 6;
     numberOfGuesses = 0;
     numberOfWrongLetters = 0;
