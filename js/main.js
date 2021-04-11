@@ -21,8 +21,10 @@ let Hangman = function(word, isGuessed, id) {
     };
 }
 
-// arrays 
+// array of hangmen
 let hangmenList = [];
+
+// default values
 let numberOfMissingLetters = 4;
 let maxNumberOfGuesses = 6;
 let numberOfGuesses = 0;
@@ -31,7 +33,7 @@ let numberOfRightLetters = 0;
 let numberOfLostGames = 0;
 let numberOfWonGames = 0;
 
-// on create
+// for test
 createHangmanWord("MONITOR");
 createHangmanWord("LETTER");
 createHangmanWord("KEYBOARD");
@@ -77,21 +79,12 @@ createHangmanWord("SHIRT");
 createHangmanWord("WOUND");
 createHangmanWord("BASEBALL");
 
+// triggered by startHangman btn
+function startHangman() {
 
-
-function changeMissingLettersNumber() {
-
-    numberOfMissingLetters = document.getElementById("missingLettersNum").value;
-    console.log(numberOfMissingLetters);
-}
-
-function doEverything() {
     resetToDefaultValues();
-
     displayHangmanWord(getRandomHangmanWordFromList(hangmenList));
     document.getElementById("hangmanMain").src = "img/icon/hangman.png";
-
-
 }
 
 function createHangmanWord(word) {
@@ -99,61 +92,33 @@ function createHangmanWord(word) {
     let hangman = new Hangman(word.toUpperCase(), false, generateHangmanId());
     hangman.missingLetters = getListOfUniqueRandomNumbers(hangman, numberOfMissingLetters);
     hangmenList.push(hangman);
-};
-
-function win(hangman) {
-
-    document.getElementById("hangmanMain").src = "img/icon/hangmanwin.png";
-    numberOfWonGames++;
-    document.getElementById("winsButton").innerText = numberOfWonGames;
-    removeHangmanFromList(hangman);
-    hideKeyboard();
-    hangman.guessed();
-
 }
 
-function lost(hangman) {
-    document.getElementById("hangmanMain").src = "img/icon/hangmangameover.png";
-    numberOfLostGames++;
-    let buttonValue = document.getElementById("lossesButton").innerText = numberOfLostGames;
-    removeHangmanFromList(hangman);
-    hideKeyboard();
+function displayHangmanWord(hangman) {
 
-}
+    showKeyboard();
+    generateKeyboard(hangman);
 
-function manageUsersGuesses(hangman, letter, isLetterGuessed) {
-    numberOfGuesses++;
+    let listOfRandomLetters = hangman.missingLetters;
 
-    if (isLetterGuessed) {
-        numberOfRightLetters++;
-        removeLetterFromMissingLetters(letter, hangman);
-        console.log(hangman.missingLetters.length);
-        if (hangman.missingLetters.length == 0) {
-            win(hangman);
-        }
+    // clear letters before displaying new
+    while (document.querySelector('[id="letterBtn"]') != null) {
 
-
-    } else if (!isLetterGuessed) {
-
-        numberOfWrongLetters++;
-        hangMe(hangman, numberOfWrongLetters);
+        document.querySelector('[id="letterBtn"]').remove();
     }
 
-}
+    for (let i = 0; i < hangman.word.length; i++) {
+        if (listOfRandomLetters.includes(i)) {
 
-function removeLetterFromMissingLetters(letter, hangman) {
+            document.getElementById("hangmanWord").innerHTML += '<button type="button" id="letterBtn" property="' + hangman.id + '" name="' + i + '" >_</button>';
+        } else {
 
-
-
-    for (let i = 0; i < hangman.missingLetters.length; i++) {
-        let char = hangman.word.charAt(hangman.missingLetters[i]);
-
-        if (char == letter) {
-            hangman.missingLetters.splice(i, 1);
+            document.getElementById("hangmanWord").innerHTML += '<button type="button" id="letterBtn" property="' + hangman.id + '">' + hangman.word.charAt(i).toUpperCase() + '</button>';
         }
     }
 }
 
+// triggered by user's click on specific key (keyboardKey)
 function guessLetter(hangmanId, letter) {
 
     // change button color if user tried to guess
@@ -162,18 +127,16 @@ function guessLetter(hangmanId, letter) {
     let isLetterGuessed = false;
     let hangman = getHangmanByHangmanId(hangmanId);
     let missingLettersList = hangman.missingLetters;
-    console.log("Number of guesses " + numberOfGuesses);
-    console.log("Number of wrong guesses: " + numberOfWrongLetters)
 
     for (let i = 0; i < missingLettersList.length; i++) {
 
-        let char = hangman.word.charAt(missingLettersList[i]);
+        let charFromList = hangman.word.charAt(missingLettersList[i]);
         let charNumber = missingLettersList[i];
-        let charArgument = letter.charAt(0);
+        let charFromLetter = letter.charAt(0);
 
 
 
-        if (char == charArgument) {
+        if (charFromList == charFromLetter) {
             // change button color when user used right letter
             document.querySelector('[property="' + hangmanId + '"][name="' + letter + '"]').style.background = "green";
             // try to implement querySelectorAll
@@ -191,9 +154,65 @@ function guessLetter(hangmanId, letter) {
 
 }
 
+// manage next step depending on user's input
+function manageUsersGuesses(hangman, letter, isLetterGuessed) {
 
+    numberOfGuesses++;
+
+    if (isLetterGuessed) {
+        numberOfRightLetters++;
+        removeLetterFromMissingLetters(letter, hangman);
+        console.log(hangman.missingLetters.length);
+
+        if (hangman.missingLetters.length == 0) {
+            win(hangman);
+        }
+
+
+    } else if (!isLetterGuessed) {
+
+        numberOfWrongLetters++;
+        hangMe(hangman, numberOfWrongLetters);
+    }
+
+}
+
+// called when whole word is guessed
+function win(hangman) {
+
+    document.getElementById("hangmanMain").src = "img/icon/hangmanwin.png";
+    numberOfWonGames++;
+    document.getElementById("winsButton").innerText = numberOfWonGames;
+    removeHangmanFromList(hangman);
+    hideKeyboard();
+    hangman.guessed();
+
+}
+
+// called when user lose game
+function lost(hangman) {
+
+    document.getElementById("hangmanMain").src = "img/icon/hangmangameover.png";
+    numberOfLostGames++;
+    let buttonValue = document.getElementById("lossesButton").innerText = numberOfLostGames;
+    removeHangmanFromList(hangman);
+    hideKeyboard();
+
+}
+// remove letter from list when user guessed one
+function removeLetterFromMissingLetters(letter, hangman) {
+
+    for (let i = 0; i < hangman.missingLetters.length; i++) {
+        let char = hangman.word.charAt(hangman.missingLetters[i]);
+
+        if (char == letter) {
+            hangman.missingLetters.splice(i, 1);
+        }
+    }
+}
+
+// remove hangman from list of hangmen if user guessed hangman word
 function removeHangmanFromList(hangman) {
-
 
     for (let i = 0; i < hangmenList.length; i++) {
 
@@ -203,42 +222,11 @@ function removeHangmanFromList(hangman) {
     }
 }
 
-function displayHangmanWord(hangman) {
-
-    showKeyboard();
-    generateKeyboard(hangman);
-
-    let listOfRandomLetters = hangman.missingLetters;
-
-    while (document.querySelector('[id="letterBtn"]') != null) {
-
-        document.querySelector('[id="letterBtn"]').remove();
-        while (document.querySelector('[id="letterInput"]') != null) {
-            document.querySelector('[id="letterInput"]').remove();
-            document.querySelector('[id="inputForm"]').remove();
-        }
-
-    }
-
-    for (let i = 0; i < hangman.word.length; i++) {
-
-        if (listOfRandomLetters.includes(i)) {
-
-            document.getElementById("hangmanWord").innerHTML += '<button type="button" id="letterBtn" property="' + hangman.id + '" name="' + i + '" >_</button>';
-        } else {
-
-            document.getElementById("hangmanWord").innerHTML += '<button type="button" id="letterBtn" property="' + hangman.id + '">' + hangman.word.charAt(i).toUpperCase() + '</button>';
-        }
-
-    }
-}
-
-
-
-function hangMe(hangman, numberOfGuesses) {
+// change main hangman image depending on number of wrong guesses
+function hangMe(hangman, numberOfWrongGuesses) {
 
     let hangmanIcon = document.getElementById("hangmanMain");
-    switch (numberOfGuesses) {
+    switch (numberOfWrongGuesses) {
 
         case 1:
             hangmanIcon.src = "img/icon/hangman1.png";
@@ -261,8 +249,7 @@ function hangMe(hangman, numberOfGuesses) {
     }
 }
 
-
-// generate keyboard on word display
+// generate & display keyboard in container
 function generateKeyboard(hangman) {
 
     document.getElementById("keyboard").innerHTML = "";
@@ -273,9 +260,7 @@ function generateKeyboard(hangman) {
         document.getElementById("keyboard").innerHTML += '<button id="keyboardKey" type="submit" property="' + hangman.id + '" name="' + char + '" onclick="guessLetter(' + hangman.id + ',\'' + char + '\');">' + char + '</button>';
 
     }
-
-
-};
+}
 
 function getRandomHangmanWordFromList(list) {
 
@@ -299,8 +284,7 @@ function getHangmanByHangmanId(hangmanId) {
 
 
 }
-
-
+// hangman id generated by last hangman's id inserted 
 function generateHangmanId() {
 
     let id = 0;
@@ -313,9 +297,7 @@ function generateHangmanId() {
         }
     }
     return id;
-};
-
-
+}
 
 function clearArray(array) {
     while (array.length) {
@@ -346,10 +328,6 @@ function showKeyboard() {
     document.getElementById("keyboard").style.display = "block";
 }
 
-function isLetterCorrect(hangman, letterNumber, letter) {
-
-}
-
 function resetToDefaultValues() {
 
     maxNumberOfGuesses = 6;
@@ -357,3 +335,11 @@ function resetToDefaultValues() {
     numberOfWrongLetters = 0;
     numberOfRightLetters = 0;
 }
+
+/* method not implemented yet
+function changeMissingLettersNumber() {
+
+    numberOfMissingLetters = document.getElementById("missingLettersNum").value;
+
+}
+*/

@@ -12,17 +12,20 @@
 
 <body>
     <header>
+        <!--  header logo -->
         <img id="logo" src="img/icon/hangmanMain.png">
+
     </header>
 
-
+    <!-- contains hangman icon -->
     <div id="container1">
+
         <!-- hangman icon // changes depending on user's input-->
         <img id="hangmanMain" src="img/icon/hangman.png">
 
     </div>
 
-
+    <!-- contains hangman word -->
     <div id="container2">
 
         <div id="hangmanWord">
@@ -33,6 +36,7 @@
 
     </div>
 
+    <!-- contains keyboard -->
     <div id="container3">
 
         <div id="keyboard">
@@ -42,6 +46,7 @@
         </div>
     </div>
 
+    <!-- contains function keys and win/loss info-->
     <div id="container4">
 
         <div id="functions">
@@ -52,8 +57,10 @@
                 <button id="winsButton">0</button>
 
             </div>
+            <!-- main function to get new hangman -->
+            <img id="loadBtn" onclick="startHangman()" src="img/icon/renew.png">
 
-            <img id="help" onclick="doEverything()" src="img/icon/renew.png">
+
             <div id="losses">
                 <p>Losses</p>
                 <button value="0" id="lossesButton">0</button>

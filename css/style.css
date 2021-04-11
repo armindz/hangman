@@ -6,6 +6,9 @@ body {
     background: linear-gradient(90deg, rgba(214, 214, 214, 1) 0%, rgba(255, 255, 255, 1) 50%, rgba(214, 214, 214, 1) 100%);
 }
 
+
+/* ----------------------- HEADER & LOGO ----------------------- */
+
 header {
     width: 100%;
     position: absolute;
@@ -25,6 +28,9 @@ header {
     transition: ease-in-out 100ms;
 }
 
+
+/* ----------------------- HANGMAN IMG ----------------------- */
+
 #container1 {
     position: absolute;
     display: flex;
@@ -35,6 +41,14 @@ header {
     display: flex;
     justify-content: center;
 }
+
+#hangmanMain {
+    max-width: 500px;
+    max-height: 100%;
+}
+
+
+/* ----------------------- HANGMAN WORD ----------------------- */
 
 #container2 {
     position: absolute;
@@ -52,10 +66,21 @@ header {
     height: 90px;
 }
 
-#hangmanMain {
-    max-width: 500px;
-    max-height: 100%;
+#letterBtn {
+    position: relative;
+    display: inline-block;
+    background-color: transparent;
+    border: none;
+    top: 20px;
+    font-size: 2em;
+    margin: 5px;
+    -ms-text-kashida-space: 50px;
+    height: 50px;
+    outline: none;
 }
+
+
+/* ----------------------- KEYBOARD ----------------------- */
 
 #container3 {
     position: absolute;
@@ -70,51 +95,6 @@ header {
     position: relative;
     max-width: 508px;
     height: auto;
-}
-
-#functions {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    max-width: 900px;
-    height: auto;
-}
-
-#help {
-    position: relative;
-    display: block;
-    max-width: 70px;
-    height: auto;
-    outline: none;
-    cursor: pointer;
-}
-
-#help:hover {
-    transition: ease-in 100ms;
-    opacity: 0.8;
-    transform: scale(1.1);
-}
-
-#letterBtn {
-    position: relative;
-    display: inline-block;
-    background-color: transparent;
-    border: none;
-    top: 20px;
-    font-size: 2em;
-    margin: 5px;
-    -ms-text-kashida-space: 50px;
-    height: 50px;
-    outline: none;
-}
-
-#container4 {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    height: 70px;
-    top: 625px;
 }
 
 #keyboardKey {
@@ -139,6 +119,41 @@ header {
     background-color: rgba(112, 155, 212, 0.6);
 }
 
+
+/* ----------------------- START BUTTON & WIN / LOSS INFO ----------------------- */
+
+#container4 {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 70px;
+    top: 625px;
+}
+
+#functions {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    max-width: 900px;
+    height: auto;
+}
+
+#loadBtn {
+    position: relative;
+    display: block;
+    max-width: 70px;
+    height: auto;
+    outline: none;
+    cursor: pointer;
+}
+
+#loadBtn:hover {
+    transition: ease-in 100ms;
+    opacity: 0.8;
+    transform: scale(1.1);
+}
+
 #missingLettersNum {
     width: 40px;
     height: auto;
@@ -151,6 +166,9 @@ header {
     font-weight: 600;
     color: rgb(184, 184, 184);
 }
+
+
+/* WIN INFO */
 
 #wins {
     background-color: rgba(71, 127, 192, 0.911);
@@ -179,6 +197,9 @@ header {
     font-size: 1.5em;
     color: #444;
 }
+
+
+/* LOSS INFO */
 
 #losses {
     background-color: rgba(71, 127, 192, 0.911);
