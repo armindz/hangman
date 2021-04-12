@@ -143,12 +143,13 @@ function guessLetter(hangmanId, letter) {
             document.querySelector('button[property="' + hangmanId + '"][name="' + charNumber + '"]').reset;
 
             // show hidden letter
-            document.querySelector('button[property="' + hangmanId + '"][name="' + charNumber + '"]').innerText = char;
+            document.querySelector('button[property="' + hangmanId + '"][name="' + charNumber + '"]').innerText = charFromList;
             document.querySelector('button[property="' + hangmanId + '"][name="' + charNumber + '"]').style.pointerEvents = "none";
             isLetterGuessed = true;
         }
 
     }
+    console.log(hangman + letter + isLetterGuessed);
     manageUsersGuesses(hangman, letter, isLetterGuessed);
     return isLetterGuessed;
 
