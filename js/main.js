@@ -121,6 +121,7 @@ function displayHangmanWord(hangman) {
 // triggered by user's click on specific key (keyboardKey)
 function guessLetter(hangmanId, letter) {
 
+    numberOfGuesses++;
     // change button color if user tried to guess
     document.querySelector('[property="' + hangmanId + '"][name="' + letter + '"]').style.background = "red";
 
@@ -128,28 +129,34 @@ function guessLetter(hangmanId, letter) {
     let hangman = getHangmanByHangmanId(hangmanId);
     let missingLettersList = hangman.missingLetters;
 
+
+
+
+
     for (let i = 0; i < missingLettersList.length; i++) {
 
         let charFromList = hangman.word.charAt(missingLettersList[i]);
         let charNumber = missingLettersList[i];
         let charFromLetter = letter.charAt(0);
 
-
-
         if (charFromList == charFromLetter) {
             // change button color when user used right letter
             document.querySelector('[property="' + hangmanId + '"][name="' + letter + '"]').style.background = "green";
-            // try to implement querySelectorAll
+            // try to implement querySelectorAll in next version
             document.querySelector('button[property="' + hangmanId + '"][name="' + charNumber + '"]').reset;
 
             // show hidden letter
             document.querySelector('button[property="' + hangmanId + '"][name="' + charNumber + '"]').innerText = charFromList;
             document.querySelector('button[property="' + hangmanId + '"][name="' + charNumber + '"]').style.pointerEvents = "none";
             isLetterGuessed = true;
+
+
+
         }
 
+
     }
-    console.log(hangman + letter + isLetterGuessed);
+
     manageUsersGuesses(hangman, letter, isLetterGuessed);
     return isLetterGuessed;
 
@@ -158,7 +165,7 @@ function guessLetter(hangmanId, letter) {
 // manage next step depending on user's input
 function manageUsersGuesses(hangman, letter, isLetterGuessed) {
 
-    numberOfGuesses++;
+
 
     if (isLetterGuessed) {
         numberOfRightLetters++;
@@ -205,8 +212,10 @@ function removeLetterFromMissingLetters(letter, hangman) {
 
     for (let i = 0; i < hangman.missingLetters.length; i++) {
         let char = hangman.word.charAt(hangman.missingLetters[i]);
-
+        console.log("Char at index " + i + " is " + char);
+        console.log("Letter input " + letter);
         if (char == letter) {
+            console.log("Deleting char " + char + " at index" + i);
             hangman.missingLetters.splice(i, 1);
         }
     }
@@ -215,7 +224,7 @@ function removeLetterFromMissingLetters(letter, hangman) {
 // remove hangman from list of hangmen if user guessed hangman word
 function removeHangmanFromList(hangman) {
 
-    for (let i = 0; i < hangmenList.length; i++) {
+    for (let i = hangmenList.length; i >= 0; i--) {
 
         if (hangmenList[i].id == hangman.id) {
             hangmenList.splice(i, 1);
